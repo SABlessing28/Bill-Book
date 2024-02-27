@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        table.t2
+        {
+            border-collapse: collapse;
+        }
+        table.t2 > tbody > tr > td, table.t2 > thead > tr > th, table.t2 > tfoot > tr > td
+        {
+            border: 1px black solid;
+            padding: 5px;
+        }
+
+    </style>
+    <script>
+        var total = 0;
+        function loadProductInfo(productcode)
+        {
+            productname = "";
+            price = "";
+            quantity = "";
+            amount = "";
+            switch (productcode)
+            {
+                case "101":
+                    productname = "Tea";
+                    price = 12;
+                    quantity = 1;
+                    amount = price * quantity;
+                    break;
+                case "102":
+                    productname = "Coffee";
+                    price = 15;
+                    quantity = 1;
+                    amount = price * quantity;
+                    break;
+            }
+            document.getElementById("txtProductName").innerHTML = productname;
+            document.getElementById("txtPrice").innerHTML = price;
+            document.getElementById("txtQuantity").value = quantity;
+            document.getElementById("txtAmount").innerHTML = amount;
+        }
+
+        function updateAmount(quantity)
+        {
+            var price = document.getElementById("txtPrice").innerHTML;
+            if (price != "")
+            {
+                amount = quantity * price;
+            }
+            document.getElementById("txtAmount").innerHTML = amount;
+        }
+
+        function addProduct()
+        {
+            var productcode = document.getElementById("txtProductCode").value;
+            var productname = document.getElementById("txtProductName").innerHTML;
+            var price = document.getElementById("txtPrice").innerHTML;
+            var quantity = document.getElementById("txtQuantity").value;
+            var amount = document.getElementById("txtAmount").innerHTML;
+            total += parseInt(amount);
+            var oldoutput = document.getElementById("dataProductList").innerHTML;
+            var newoutput = oldoutput + '<tr>'; 
+                newoutput += '<td>' + productcode + '</td>';
+                newoutput += '<td>' + productname + '</td>';
+                newoutput += '<td>' + price + '</td>';
+                newoutput += '<td>' + quantity + '</td>';
+                newoutput += '<td>' + amount + '</td>';
+            newoutput += '</tr>';
+            document.getElementById("dataProductList").innerHTML = newoutput; 
+            document.getElementById("txtTotal").innerHTML = total; 
+        }
+
+        function clearProducts()
+        {
+            document.getElementById("dataProductList").innerHTML = "";
+            total = "";
+            document.getElementById("txtTotal").innerHTML = total; 
+        }
+    </script>
+</head>
+<body>
+    <h3>Bill Book</h3>
+    <table>
+        <tr>
+            <td width="150">Product Code</td>
+            <td>
+                <input type="number" name="txtProductCode" id="txtProductCode" onchange="loadProductInfo(this.value);" onkeyup="loadProductInfo(this.value);" />
+            </td>
+        </tr>
+        <tr>
+            <td>Product Name</td>
+            <td id="txtProductName">
+                
+            </td>
+        </tr>
+        <tr>
+            <td>Price</td>
+            <td id="txtPrice">
+                
+            </td>
+        </tr>
+        <tr>
+            <td>Quantity</td>
+            <td>
+                <input type="number" name="txtQuantity" id="txtQuantity" onchange="updateAmount(this.value);" onkeyup="updateAmount(this.value)" />
+            </td>
+        </tr>
+        <tr>
+            <td>Amount</td>
+            <td id="txtAmount">
+
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <input type="button" id="btnAdd" value="Add" onclick="addProduct()" />
+                <input type="button" id="btnClear" value="Clear" onclick="clearProducts();" />
+            </td>
+        </tr>
+    </table>
+    <table width="600" class="t2">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody id="dataProductList">
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">Total</td>
+                <td id="txtTotal"></td>
+            </tr>
+        </tfoot>
+    </table>
+</body>
+</html>
